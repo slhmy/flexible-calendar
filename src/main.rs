@@ -46,6 +46,10 @@ impl Application for FlexibleCalendar {
         String::from("flexible-calendar")
     }
 
+    fn view(&mut self) -> Element<Self::Message> {
+        Text::new(format!("{}", self.now.format("%Y-%m-%d %H:%M:%S").to_string())).into()
+    }
+
     fn subscription(&self) -> Subscription<Self::Message> {
         time::every(std::time::Duration::from_millis(500))
             .map(|_| Self::Message::Tick(chrono::Local::now()))
@@ -63,9 +67,5 @@ impl Application for FlexibleCalendar {
         }
 
         Command::none()
-    }
-
-    fn view(&mut self) -> Element<Self::Message> {
-        Text::new(format!("{}", self.now.format("%Y-%m-%d %H:%M:%S").to_string())).into()
     }
 }
